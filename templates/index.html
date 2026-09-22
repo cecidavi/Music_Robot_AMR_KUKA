@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Music Robot AMR</title>
+
+    <link rel="stylesheet"
+        href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body>
+
+    <div class=" AMR</h1>
+
+        <hr>
+
+        <div class="card">
+
+            <h2>Robot</h2>
+
+            <label>IP del Robot</label>
+
+            <input
+                type="text"
+                placeholder="10.97.000.000">
+
+        </div>
+
+        <div class="card">
+
+            <h2>YouTube</h2>
+
+            <label>URL del Video</label>
+
+            <input
+                type="text"
+                placeholder="https://youtube.com/...">
+
+        </div>
+
+        <div class="card">
+
+            <h2>Destino</h2>
+
+            <label>
+                <input type="checkbox">
+                AW100
+            </label>
+
+            <label>
+                <input type="checkbox">
+                AW200
+            </label>
+
+        </div>
+
+        <div class="card">
+
+            <h2>Recorte</h2>
+
+            <label>Inicio (segundos)</label>
+
+            <input
+                type="number"
+                value="0">
+
+            <label>Fin (segundos)</label>
+
+            <input
+                type="number"
+                value="0">
+
+        </div>
+
+        <div class="buttons">
+
+            <button>
+                Descargar
+            </button>
+
+            <button>
+                Convertir
+            </button>
+
+            <button>
+                Subir al Robot
+            </button>
+
+        </div>
+
+    </div>
+
+</body>
+
+</html>
