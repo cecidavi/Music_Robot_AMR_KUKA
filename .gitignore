@@ -3,15 +3,16 @@ __pycache__/
 *.py[cod]
 *.pyo
 
-# Virtual environment
+# Virtual environments
 .venv/
 venv/
 
 # Environment variables
 .env
 
-# VS Code
+# IDEs
 .vscode/
+.idea/
 
 # Logs
 *.log
@@ -23,8 +24,17 @@ venv/
 .DS_Store
 Thumbs.db
 
-# Future storage
+# Storage
 storage/
 
 # Docker
 *.tar
+
+# Generated media
+*.mp3
+*.wav
+*.webm
+
+# Coverage
+.coverage
+htmlcov/
