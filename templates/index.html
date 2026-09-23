@@ -4,92 +4,84 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>Music Robot AMR</title>
 
     <link rel="stylesheet"
-        href="{{ url_for('static', filename='css/style.css') }}">
+          href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 
 <body>
 
-    <div class="container">
-        <h1>Music Robot AMR</h1>
+    <div class="container            <div class="card">
+
+                <h2>YouTube</h2>
+
+                <label>URL del Video</label>
+
+                <input
+                    type="text"
+                    name="youtube_url"
+                    placeholder="https://youtube.com/watch?v=..."
+                    required>
+
+            </div>
+
+            <div class="buttons">
+
+                <button type="submit">
+                    Procesar Canción
+                </button>
+
+            </div>
+
+        </form>
 
         <hr>
 
-        <div class="card">
-
-            <h2>Robot</h2>
-
-            <label>IP del Robot</label>
-
-            <input
-                type="text"
-                placeholder="10.97.000.000">
-
-        </div>
+        {% if info %}
 
         <div class="card">
 
-            <h2>YouTube</h2>
+            <h2>Información del Video</h2>
 
-            <label>URL del Video</label>
+            <p>
+                <strong>Título:</strong>
+                {{ info.titulo }}
+            </p>
 
-            <input
-                type="text"
-                placeholder="https://youtube.com/...">
+            <p>
+                <strong>Canal:</strong>
+                {{ info.canal }}
+            </p>
+
+            <p>
+                <strong>Duración:</strong>
+                {{ info.duracion }}
+                segundos
+            </p>
 
         </div>
+
+        {% endif %}
+
+        {% if exito %}
 
         <div class="card">
 
-            <h2>Destino</h2>
+            <h2>✅ Procesamiento terminado</h2>
 
-            <label>
-                <input type="checkbox">
-                AW100
-            </label>
-
-            <label>
-                <input type="checkbox">
-                AW200
-            </label>
+            <ul>
+                <li>✅ source.mp3 generado</li>
+                <li>✅ 0100.mp3 generado</li>
+                <li>✅ 100.wav generado</li>
+                <li>✅ 0200.mp3 generado</li>
+                <li>✅ 200.wav generado</li>
+            </ul>
 
         </div>
 
-        <div class="card">
-
-            <h2>Recorte</h2>
-
-            <label>Inicio (segundos)</label>
-
-            <input
-                type="number"
-                value="0">
-
-            <label>Fin (segundos)</label>
-
-            <input
-                type="number"
-                value="0">
-
-        </div>
-
-        <div class="buttons">
-
-            <button>
-                Descargar
-            </button>
-
-            <button>
-                Convertir
-            </button>
-
-            <button>
-                Subir al Robot
-            </button>
-
-        </div>
+        {% endif %}
 
     </div>
 
