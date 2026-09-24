@@ -7,22 +7,25 @@
 
     <title>Music Robot AMR</title>
 
-    <link rel="stylesheet"
-          href="{{ url_for('static', filename='css/style.css') }}">
-</head>
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='css/style.css') }}">
 
-<body>
+        <form method="POST">
 
-    <div class="container            <div class="card">
+            <div class="card">
 
                 <h2>YouTube</h2>
 
-                <label>URL del Video</label>
+                <label for="youtube_url">
+                    URL del Video
+                </label>
 
                 <input
+                    id="youtube_url"
                     type="text"
                     name="youtube_url"
-                    placeholder="https://youtube.com/watch?v=..."
+                    placeholder="URL del video de YouTube"
                     required>
 
             </div>
@@ -37,9 +40,9 @@
 
         </form>
 
-        <hr>
-
         {% if info %}
+
+        <hr>
 
         <div class="card">
 
@@ -57,26 +60,31 @@
 
             <p>
                 <strong>Duración:</strong>
-                {{ info.duracion }}
-                segundos
+                {{ info.duracion }} segundos
             </p>
 
         </div>
 
         {% endif %}
 
-        {% if exito %}
+
+        {% if mensaje %}
+
+        <hr>
 
         <div class="card">
 
             <h2>✅ Procesamiento terminado</h2>
 
+            <p>{{ mensaje }}</p>
+
+            <h3>Archivos generados</h3>
+
             <ul>
-                <li>✅ source.mp3 generado</li>
-                <li>✅ 0100.mp3 generado</li>
-                <li>✅ 100.wav generado</li>
-                <li>✅ 0200.mp3 generado</li>
-                <li>✅ 200.wav generado</li>
+                <li>✅ AW100 / 0100.mp3</li>
+                <li>✅ AW100 / 100.wav</li>
+                <li>✅ AW200 / 0200.mp3</li>
+                <li>✅ AW200 / 200.wav</li>
             </ul>
 
         </div>
