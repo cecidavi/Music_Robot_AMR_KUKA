@@ -3,125 +3,311 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0">
 
     <title>Music Robot AMR</title>
 
     <link
         rel="stylesheet"
         href="{{ url_for('static', filename='css/style.css') }}">
-
 </head>
+
 <body>
+
+    <div class="container">
+
+        <!-- ==========================================
+             FORMULARIO DE YOUTUBE
+        =========================================== -->
+
         <form method="POST">
 
             <div class="card">
 
-                <h2>Music Robot AMR</h2>
+                <h1>Music Robot AMR</h1>
+
+                <h2>Descargar canción</h2>
 
                 <label for="youtube_url">
-                    URL del Video
+                    URL del video
                 </label>
 
                 <input
                     id="youtube_url"
                     type="text"
                     name="youtube_url"
-                    placeholder="URL del video de YouTube"
+                    placeholder="Pega aquí la URL del video de YouTube"
                     required>
 
-            </div>
+                <div class="buttons">
 
-            <div class="buttons">
+                    <button
+                        type="submit"
+                        class="button-primary">
 
-                <button type="submit">
-                    Descargar y Generar Archivos
-                </button>
+                        Descargar y generar archivos
+
+                    </button>
+
+                </div>
 
             </div>
 
         </form>
 
-        {% if info %}
 
-        <hr>
+        <!-- ==========================================
+             MENSAJE DE ERROR
+        =========================================== -->
 
-        <div class="card">
+        {% if error %}
 
-            <h2>Información del Video</h2>
+            <div class="card card-error">
 
-            <p>
-                <strong>Título:</strong>
-                {{ info.titulo }}
-            </p>
+                <h2>❌ No se pudo procesar</h2>
 
-            <p>
-                <strong>Duración:</strong>
-                {{ info.duracion }} segundos
-            </p>
+                <p>
+                    {{ error }}
+                </p>
 
-        </div>
+            </div>
 
         {% endif %}
 
 
+        <!-- ==========================================
+             INFORMACIÓN DEL VIDEO
+        =========================================== -->
+
+        {% if info %}
+
+            <div class="card">
+
+                <h2>Información del video</h2>
+
+                <p>
+                    <strong>Título:</strong>
+                    {{ info.titulo }}
+                </p>
+
+                {% if info.canal %}
+
+                    <p>
+                        <strong>Canal:</strong>
+                        {{ info.canal }}
+                    </p>
+
+                {% endif %}
+
+                <p>
+                    <strong>Duración:</strong>
+                    {{ info.duracion }} segundos
+                </p>
+
+            </div>
+
+        {% endif %}
+
+
+        <!-- ==========================================
+             RESULTADO DEL PROCESAMIENTO
+        =========================================== -->
+
         {% if mensaje %}
 
-        <hr>
+            <div class="card">
 
-        <div class="card">
+                <h2>✅ Procesamiento terminado</h2>
 
-            <h2>✅ Procesamiento terminado</h2>
+                <p>
+                    {{ mensaje }}
+                </p>
 
-            <p>{{ mensaje }}</p>
+                <h3>Archivos generados</h3>
 
-            <h3>Archivos generados</h3>
+                <ul class="lista-archivos">
 
-            <ul>
-                <li>✅ AW100 / 0100.mp3</li>
-                <li>✅ AW100 / 100.wav</li>
-                <li>✅ AW200 / 0200.mp3</li>
-                <li>✅ AW200 / 200.wav</li>
-            </ul>
+                    <li>✅ AW100 / 0100.mp3</li>
+                    <li>✅ AW100 / 100.wav</li>
+                    <li>✅ AW200 / 0200.mp3</li>
+                    <li>✅ AW200 / 200.wav</li>
+
+                </ul>
 
 
+                <!-- ==================================
+                     VISTA PREVIA DEL AUDIO
+                =================================== -->
 
-        <h3>Vista previa del audio</h3>
+                <h3>Vista previa del audio</h3>
 
-        <div id="waveform"></div>
+                <p class="ayuda-recorte">
+                    Escucha la canción y selecciona el fragmento
+                    que deseas conservar.
+                </p>
 
-        <div class="buttons">
+                <div class="waveform-container">
 
-        <button type="button" id="playPause">
+                    <div class="timeline">
 
-                ▶ Reproducir
+                        <span>
+                            00:00
+                        </span>
 
-        </button>
+                        <span>
 
-        </div>
+                            {% if info %}
+                                {{ info.duracion }} segundos
+                            {% endif %}
 
-        </div>
+                        </span>
+
+                    </div>
+
+                    <div id="waveform"></div>
+
+                </div>
+
+
+                <!-- ==================================
+                     INFORMACIÓN DE LA SELECCIÓN
+                =================================== -->
+
+                <div class="seleccion-audio">
+
+                    <div class="tiempo-item">
+
+                        <span class="tiempo-etiqueta">
+                            Inicio
+                        </span>
+
+                        <span
+                            id="tiempoInicio"
+                            class="tiempo-valor">
+
+                            00:00
+
+                        </span>
+
+                    </div>
+
+
+                    <div class="tiempo-item">
+
+                        <span class="tiempo-etiqueta">
+                            Final
+                        </span>
+
+                        <span
+                            id="tiempoFin"
+                            class="tiempo-valor">
+
+                            00:00
+
+                        </span>
+
+                    </div>
+
+
+                    <div class="tiempo-item">
+
+                        <span class="tiempo-etiqueta">
+                            Duración seleccionada
+                        </span>
+
+                        <span
+                            id="duracionSeleccion"
+                            class="tiempo-valor">
+
+                            00:00
+
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+                <!-- ==================================
+                     VALORES PARA EL RECORTE
+                =================================== -->
+
+                <input
+                    type="hidden"
+                    id="inicioRecorte"
+                    name="inicio"
+                    value="0">
+
+                <input
+                    type="hidden"
+                    id="finRecorte"
+                    name="fin"
+                    value="0">
+
+
+                <!-- ==================================
+                     CONTROLES DEL AUDIO
+                =================================== -->
+
+                <div class="buttons controles-audio">
+
+                    <button
+                        type="button"
+                        id="playPause"
+                        class="button-secondary">
+
+                        ▶ Reproducir
+
+                    </button>
+
+                    <button
+                        type="button"
+                        id="playSelection"
+                        class="button-secondary">
+
+                        ▶ Escuchar selección
+
+                    </button>
+
+                </div>
+
+
+                <!-- ==================================
+                     BOTÓN DE RECORTE
+                =================================== -->
+
+                <div class="buttons acciones-audio">
+
+                    <button
+                        type="button"
+                        id="procesarRecorte"
+                        class="button-primary">
+
+                        ✂ Recortar selección y regenerar archivos
+
+                    </button>
+
+                </div>
+
+            </div>
 
         {% endif %}
 
     </div>
 
-    {% if error %}
 
-<hr>
+    <!-- ==============================================
+         JAVASCRIPT DEL REPRODUCTOR
+    =============================================== -->
 
-<div class="card">
+    <script
+        type="module"
+        src="{{ url_for('static', filename='js/audio.js') }}">
+    </script>
 
-    <h2>❌ No se pudo procesar</h2>
-
-    <p>
-        {{ error }}
-    </p>
-
-</div>
-
-{% endif %}
-
-<script type="module" src="{{ url_for('static', filename='js/audio.js') }}"></script>
 </body>
+
 </html>
