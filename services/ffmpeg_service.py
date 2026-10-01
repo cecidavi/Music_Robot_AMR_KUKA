@@ -82,9 +82,16 @@ class FFmpegService:
         return archivo_salida
 
     @staticmethod
-    def generar_archivos_robot():
+    def generar_archivos_robot(
+        archivo_fuente="storage/preview/source.mp3"
+    ):
 
-        source = Path("storage/preview/source.mp3")
+        source = Path(archivo_fuente)
+
+        if not source.exists():
+            raise Exception(
+                f"Archivo fuente no encontrado: {source}"
+            )
 
         aw100_dir = Path("storage/AW100")
         aw200_dir = Path("storage/AW200")
@@ -124,3 +131,54 @@ class FFmpegService:
         )
 
         return True
+
+    @staticmethod
+    def recortar_audio(
+        inicio,
+        fin
+    ):
+
+        source = Path("storage/preview/source.mp3")
+
+        recorte = Path("storage/preview/recorte.mp3")
+
+        if not source.exists():
+            raise FileNotFoundError(
+                "Nose encontro storage/preview/source.mp3"
+            )
+
+        if inicio < 0:
+            raise ValueError(
+                "El tiempo de inicio no puede ser negativo"
+            )
+
+        if fin <= inicio:
+            raise ValueError(
+                "El tiempo de fin debe ser mayor que el tiempo de inicio"
+            )
+
+        info = FFmpegService.detectar_ffmpeg()
+
+        ffmpeg = info["ffmpeg"]
+
+        comando = [
+            ffmpeg,
+            "-y",
+            "-i",
+            str(source),
+            "-af",
+            f"atrim=start={inicio}:end={fin},asetpts=PTS-STARTPTS",
+            ".codec:a",
+            "libmp3lame",
+            "-b:a",
+            "192k",
+            str(recorte)
+        ]
+
+        subprocess.run(
+            comando,
+            check=True
+        )
+
+
+        return str(recorte)

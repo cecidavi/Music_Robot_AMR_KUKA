@@ -11,11 +11,13 @@
         rel="stylesheet"
         href="{{ url_for('static', filename='css/style.css') }}">
 
+</head>
+<body>
         <form method="POST">
 
             <div class="card">
 
-                <h2>YouTube</h2>
+                <h2>Music Robot AMR</h2>
 
                 <label for="youtube_url">
                     URL del Video
@@ -33,7 +35,7 @@
             <div class="buttons">
 
                 <button type="submit">
-                    Procesar Canción
+                    Descargar y Generar Archivos
                 </button>
 
             </div>
@@ -82,6 +84,22 @@
                 <li>✅ AW200 / 200.wav</li>
             </ul>
 
+
+
+        <h3>Vista previa del audio</h3>
+
+        <div id="waveform"></div>
+
+        <div class="buttons">
+
+        <button type="button" id="playPause">
+
+                ▶ Reproducir
+
+        </button>
+
+        </div>
+
         </div>
 
         {% endif %}
@@ -104,6 +122,6 @@
 
 {% endif %}
 
+<script type="module" src="{{ url_for('static', filename='js/audio.js') }}"></script>
 </body>
-
 </html>

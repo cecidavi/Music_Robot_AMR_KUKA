@@ -1,5 +1,4 @@
-from flask import Flask, render_template, request
-
+from flask import Flask, render_template, request, send_from_directory
 from services.audio_service import AudioService
 
 
@@ -35,6 +34,13 @@ def index():
         info=info
     )
 
+@app.route("/audio/source")
+def audio_source():
+    return send_from_directory(
+        "storage/preview",
+        "source.mp3",
+        mimetype="audio/mpeg"
+                 )   
 
 if __name__ == "__main__":
 
