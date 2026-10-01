@@ -54,11 +54,6 @@
             </p>
 
             <p>
-                <strong>Canal:</strong>
-                {{ info.canal }}
-            </p>
-
-            <p>
                 <strong>Duración:</strong>
                 {{ info.duracion }} segundos
             </p>
@@ -92,6 +87,22 @@
         {% endif %}
 
     </div>
+
+    {% if error %}
+
+<hr>
+
+<div class="card">
+
+    <h2>❌ No se pudo procesar</h2>
+
+    <p>
+        {{ error }}
+    </p>
+
+</div>
+
+{% endif %}
 
 </body>
 

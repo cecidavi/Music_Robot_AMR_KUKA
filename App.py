@@ -1,39 +1,43 @@
 from flask import Flask, render_template, request
 
-from services.youtube_service import YoutubeService
-from services.ffmpeg_service import FFmpegService
+from services.audio_service import AudioService
+
 
 app = Flask(__name__)
 
-youtube = YoutubeService()
+audio = AudioService()
 
 
 @app.route("/", methods=["GET", "POST"])
 def index():
 
     mensaje = None
+    error = None
+    info = None
 
     if request.method == "POST":
 
         url = request.form.get(
-            "youtube_url"
-        )
+            "youtube_url",
+            ""
+        ).strip()
 
-        youtube.descargar_audio(url)
+        resultado = audio.procesar_audio(url)
 
-        FFmpegService.generar_archivos_robot()
-
-        mensaje = (
-            "Archivos generados correctamente"
-        )
+        mensaje = resultado["mensaje"]
+        error = resultado["error"]
+        info = resultado["info"]
 
     return render_template(
         "index.html",
-        mensaje=mensaje
+        mensaje=mensaje,
+        error=error,
+        info=info
     )
 
 
 if __name__ == "__main__":
+
     app.run(
         debug=True
     )
