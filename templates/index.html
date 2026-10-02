@@ -231,68 +231,66 @@
                 </div>
 
 
-                <!-- ==================================
-                     VALORES PARA EL RECORTE
-                =================================== -->
+<!-- ==================================
+     CONTROLES DEL AUDIO
+=================================== -->
 
-                <input
-                    type="hidden"
-                    id="inicioRecorte"
-                    name="inicio"
-                    value="0">
+<div class="buttons controles-audio">
 
-                <input
-                    type="hidden"
-                    id="finRecorte"
-                    name="fin"
-                    value="0">
+    <button
+        type="button"
+        id="playPause"
+        class="button-secondary">
 
+        ▶ Reproducir
 
-                <!-- ==================================
-                     CONTROLES DEL AUDIO
-                =================================== -->
+    </button>
 
-                <div class="buttons controles-audio">
+    <button
+        type="button"
+        id="playSelection"
+        class="button-secondary">
 
-                    <button
-                        type="button"
-                        id="playPause"
-                        class="button-secondary">
+        ▶ Escuchar selección
 
-                        ▶ Reproducir
+    </button>
 
-                    </button>
-
-                    <button
-                        type="button"
-                        id="playSelection"
-                        class="button-secondary">
-
-                        ▶ Escuchar selección
-
-                    </button>
-
-                </div>
+</div>
 
 
-                <!-- ==================================
-                     BOTÓN DE RECORTE
-                =================================== -->
+<!-- ==================================
+     FORMULARIO DE RECORTE
+=================================== -->
 
-                <div class="buttons acciones-audio">
+<form id="formRecorte" action="/recortar" method="POST">
 
-                    <button
-                        type="button"
-                        id="procesarRecorte"
-                        class="button-primary">
+    <input
+        type="hidden"
+        id="inicioRecorte"
+        name="inicio"
+        value="0">
 
-                        ✂ Recortar selección y regenerar archivos
+    <input
+        type="hidden"
+        id="finRecorte"
+        name="fin"
+        value="0">
 
-                    </button>
 
-                </div>
+    <div class="buttons acciones-audio">
 
-            </div>
+        <button
+            type="submit"
+            id="procesarRecorte"
+            class="button-primary">
+
+            Recortar y regenerar
+
+        </button>
+
+    </div>
+
+</form>
 
         {% endif %}
 

@@ -42,6 +42,28 @@ def audio_source():
         mimetype="audio/mpeg"
                  )   
 
+#prueba de recorte 
+
+@app.route("/recortar", methods=["POST"])
+def recortar_audio():
+
+    inicio = request.form.get("inicio")
+    fin = request.form.get("fin")
+
+
+    print("Post /recortar recibido")
+    print("Inicio recibido:", inicio)
+    print("Fin recibido:", fin)
+
+    return (
+        f"Inicio recibido: {inicio}, "
+        f"fin recibido: {fin}"
+    )
+
+
+
+
+
 if __name__ == "__main__":
 
     app.run(
