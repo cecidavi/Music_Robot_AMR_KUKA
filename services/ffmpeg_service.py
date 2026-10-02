@@ -83,18 +83,37 @@ class FFmpegService:
 
     @staticmethod
     def generar_archivos_robot(
-        archivo_fuente="storage/preview/source.mp3"
+        archivo_fuente=None
     ):
 
-        source = Path(archivo_fuente)
+        if archivo_fuente is None:
 
-        if not source.exists():
-            raise Exception(
-                f"Archivo fuente no encontrado: {source}"
+            source = Path(
+                "storage/preview/source.mp3"
             )
 
-        aw100_dir = Path("storage/AW100")
-        aw200_dir = Path("storage/AW200")
+        else:
+
+            source = Path(
+                archivo_fuente
+            )
+
+
+        if not source.exists():
+
+            raise FileNotFoundError(
+                f"No existe el archivo fuente: {source}"
+            )
+
+
+        aw100_dir = Path(
+            "storage/AW100"
+        )
+
+        aw200_dir = Path(
+            "storage/AW200"
+        )
+
 
         aw100_dir.mkdir(
             parents=True,
@@ -106,31 +125,49 @@ class FFmpegService:
             exist_ok=True
         )
 
-        # Copiar MP3 AW100
+
+        # Copiar MP3 para AW100
+
         shutil.copy2(
             source,
             aw100_dir / "0100.mp3"
         )
 
-        # Copiar MP3 AW200
+
+        # Copiar MP3 para AW200
+
         shutil.copy2(
             source,
             aw200_dir / "0200.mp3"
         )
 
-        # Generar WAV AW100
+
+        # Generar WAV para AW100
+
         FFmpegService.convertir_mp3_wav(
-            str(aw100_dir / "0100.mp3"),
-            str(aw100_dir / "100.wav")
+            str(
+                aw100_dir / "0100.mp3"
+            ),
+            str(
+                aw100_dir / "100.wav"
+            )
         )
 
-        # Generar WAV AW200
+
+        # Generar WAV para AW200
+
         FFmpegService.convertir_mp3_wav(
-            str(aw200_dir / "0200.mp3"),
-            str(aw200_dir / "200.wav")
+            str(
+                aw200_dir / "0200.mp3"
+            ),
+            str(
+                aw200_dir / "200.wav"
+            )
         )
+
 
         return True
+
 
     @staticmethod
     def recortar_audio(
@@ -182,3 +219,83 @@ class FFmpegService:
 
 
         return str(recorte)
+
+
+    @staticmethod
+    def recortar_source(inicio, fin):
+
+        archivo_entrada = Path(
+            "storage/preview/source.mp3"
+        )
+
+        archivo_salida = Path(
+            "storage/preview/source_recortado.mp3"
+        )
+
+
+        if not archivo_entrada.exists():
+
+            raise FileNotFoundError(
+                "No existe storage/preview/source.mp3"
+            )
+
+
+        inicio = float(inicio)
+        fin = float(fin)
+
+
+        if inicio < 0:
+
+            raise ValueError(
+                "El tiempo inicial no puede ser negativo."
+            )
+
+
+        if fin <= inicio:
+
+            raise ValueError(
+                "El tiempo final debe ser mayor "
+                "que el tiempo inicial."
+            )
+
+
+        duracion = fin - inicio
+
+
+        info = FFmpegService.detectar_ffmpeg()
+
+        ffmpeg = info["ffmpeg"]
+
+
+        comando = [
+            ffmpeg,
+            "-y",
+
+            "-i",
+            str(archivo_entrada),
+
+            "-ss",
+            str(inicio),
+
+            "-t",
+            str(duracion),
+
+            "-vn",
+
+            "-c:a",
+            "libmp3lame",
+
+            "-b:a",
+            "192k",
+
+            str(archivo_salida)
+        ]
+
+
+        subprocess.run(
+            comando,
+            check=True
+        )
+
+
+        return archivo_salida

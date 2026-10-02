@@ -105,3 +105,65 @@ class AudioService:
                 ),
                 "info": None
             }
+
+
+
+def procesar_recorte(
+    self,
+    inicio,
+    fin
+):
+
+    try:
+
+        inicio = float(inicio)
+        fin = float(fin)
+
+
+        archivo_recortado = (
+            FFmpegService.recortar_source(
+                inicio,
+                fin
+            )
+        )
+
+
+        FFmpegService.generar_archivos_robot(
+            archivo_recortado
+        )
+
+
+        return {
+            "estado": "correcto",
+
+            "mensaje": (
+                "Recorte completo. "
+                "Los archivos AW100 y AW200 "
+                "fueron regenerados."
+            ),
+
+            "inicio": inicio,
+
+            "fin": fin,
+
+            "duracion": fin - inicio,
+
+            "archivo_recortado": True
+        }
+
+
+    except Exception as error:
+
+        print(
+            "Error procesando recorte:",
+            error
+        )
+
+
+        return {
+            "estado": "error",
+
+            "mensaje": str(error),
+
+            "archivo_recortado": False
+        }

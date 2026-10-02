@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, send_from_directory
+from flask import Flask, redirect, render_template, request, send_from_directory, url_for, jsonify
 from services.audio_service import AudioService
 
 
@@ -50,15 +50,48 @@ def recortar_audio():
     inicio = request.form.get("inicio")
     fin = request.form.get("fin")
 
-
-    print("Post /recortar recibido")
+    print("POST /recortar recibido")
     print("Inicio recibido:", inicio)
     print("Fin recibido:", fin)
 
-    return (
-        f"Inicio recibido: {inicio}, "
-        f"fin recibido: {fin}"
-    )
+
+    if not inicio or not fin:
+
+        return jsonify({
+            "estado": "error",
+            "mensaje": (
+                "No se recibieron los tiempos "
+                "de inicio y final."
+            )
+        }), 400
+
+
+    inicio = float(inicio)
+    fin = float(fin)
+
+
+    if fin <= inicio:
+
+        return jsonify({
+            "estado": "error",
+            "mensaje": (
+                "El tiempo final debe ser "
+                "mayor que el tiempo inicial."
+            )
+        }), 400
+
+
+    return jsonify({
+        "estado": "correcto",
+        "mensaje": (
+            "Selección recibida correctamente. "
+            f"Inicio: {inicio:.3f} segundos. "
+            f"Final: {fin:.3f} segundos."
+        ),
+        "inicio": inicio,
+        "fin": fin,
+        "duracion": fin - inicio
+    })
 
 
 
