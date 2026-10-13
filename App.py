@@ -42,58 +42,64 @@ def audio_source():
         mimetype="audio/mpeg"
                  )   
 
+
+@app.route("/audio/recortado")
+def audio_recortado():
+
+    return send_from_directory(
+        "storage/preview",
+        "source_recortado.mp3",
+        mimetype="audio/mpeg"
+    )
+
 #prueba de recorte 
 
-@app.route("/recortar", methods=["POST"])
+@app.route(
+    "/recortar",
+    methods=["POST"]
+)
 def recortar_audio():
 
-    inicio = request.form.get("inicio")
-    fin = request.form.get("fin")
+    inicio = request.form.get(
+        "inicio"
+    )
 
-    print("POST /recortar recibido")
-    print("Inicio recibido:", inicio)
-    print("Fin recibido:", fin)
-
-
-    if not inicio or not fin:
-
-        return jsonify({
-            "estado": "error",
-            "mensaje": (
-                "No se recibieron los tiempos "
-                "de inicio y final."
-            )
-        }), 400
+    fin = request.form.get(
+        "fin"
+    )
 
 
-    inicio = float(inicio)
-    fin = float(fin)
+    print(
+        "POST /recortar recibido"
+    )
+
+    print(
+        "Inicio recibido:",
+        inicio
+    )
+
+    print(
+        "Fin recibido:",
+        fin
+    )
 
 
-    if fin <= inicio:
-
-        return jsonify({
-            "estado": "error",
-            "mensaje": (
-                "El tiempo final debe ser "
-                "mayor que el tiempo inicial."
-            )
-        }), 400
+    resultado = audio.procesar_recorte(
+        inicio,
+        fin
+    )
 
 
-    return jsonify({
-        "estado": "correcto",
-        "mensaje": (
-            "Selección recibida correctamente. "
-            f"Inicio: {inicio:.3f} segundos. "
-            f"Final: {fin:.3f} segundos."
-        ),
-        "inicio": inicio,
-        "fin": fin,
-        "duracion": fin - inicio
-    })
+    if resultado["estado"] == "error":
+
+        return jsonify(
+            resultado
+        ), 400
 
 
+    return jsonify(
+        resultado
+    )
 
 
 

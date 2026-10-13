@@ -429,20 +429,57 @@ if (formularioRecorte) {
                 }
 
 
-                if (resultadoRecorte) {
+if (resultadoRecorte) {
 
-                    resultadoRecorte.className =
-                        "resultado-recorte correcto";
+    resultadoRecorte.className =
+        "resultado-recorte correcto";
 
-                    resultadoRecorte.textContent =
-                        resultado.mensaje;
-                }
+    resultadoRecorte.textContent =
+        resultado.mensaje;
+}
 
 
-                console.log(
-                    "Respuesta de Flask:",
-                    resultado
-                );
+// Si Flask confirmó que creó source_recortado.mp3,
+// cargamos ese archivo en la misma forma de onda.
+
+if (resultado.archivo_recortado === true) {
+
+    console.log(
+        "Cargando audio recortado..."
+    );
+
+
+    // Detener cualquier reproducción actual.
+
+    wavesurfer.pause();
+
+
+    // Eliminar la región de la canción completa.
+
+    regions.clearRegions();
+
+    regionSeleccion = null;
+
+
+    // Cargar source_recortado.mp3.
+    // Date.now() evita que el navegador use
+    // una versión anterior guardada en caché.
+
+    await wavesurfer.load(
+        `/audio/recortado?v=${Date.now()}`
+    );
+
+
+    console.log(
+        "Audio recortado cargado correctamente"
+    );
+}
+
+
+console.log(
+    "Respuesta de Flask:",
+    resultado
+);
 
             } catch (error) {
 
