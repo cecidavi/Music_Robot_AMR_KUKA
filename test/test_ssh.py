@@ -1,67 +1,105 @@
+import os
+
 from services.ssh_service import SSHService
 
 
-IP = "10.97.66.225"
-USUARIO = "kuka"
-PASSWORD = "68kuka1secpw59"
+IP_ROBOT = os.getenv(
+    "ROBOT_IP"
+)
+
+USUARIO_ROBOT = os.getenv(
+    "ROBOT_USUARIO"
+)
+
+PASSWORD_ROBOT = os.getenv(
+    "ROBOT_PASSWORD"
+)
+
+
+if not IP_ROBOT:
+
+    raise ValueError(
+        "Falta la variable ROBOT_IP"
+    )
+
+
+if not USUARIO_ROBOT:
+
+    raise ValueError(
+        "Falta la variable ROBOT_USUARIO"
+    )
+
+
+if not PASSWORD_ROBOT:
+
+    raise ValueError(
+        "Falta la variable ROBOT_PASSWORD"
+    )
 
 
 ssh = SSHService(
-    host=IP,
-    usuario=USUARIO,
-    password=PASSWORD
+    host=IP_ROBOT,
+    usuario=USUARIO_ROBOT,
+    password=PASSWORD_ROBOT
 )
 
 
 try:
 
-    print("Conectando al robot...")
+    print(
+        "Conectando al robot..."
+    )
 
     ssh.conectar()
 
-    print("SSH conectado correctamente")
-
-
-    print("Abriendo SFTP...")
-
-    ssh.conectar_stfp()
-
-    print("SFTP conectado correctamente")
-
-
-    print("\nAW100")
-    print("-" * 50)
-
-    archivos_aw100 = ssh.listar_carpetas(
-        "/home/kuka/userdata/kuka_audio/AW100"
+    print(
+        "SSH conectado correctamente"
     )
 
-    for archivo in archivos_aw100:
 
-        print(
-            archivo["nombre"],
-            archivo["tamano"],
-            "bytes",
-            "permisos:",
-            archivo["permisos"]
-        )
-
-
-    print("\nAW200")
-    print("-" * 50)
-
-    archivos_aw200 = ssh.listar_carpetas(
-        "/home/kuka/userdata/kuka_audio/AW200"
+    print(
+        "Preparando permisos..."
     )
 
-    for archivo in archivos_aw200:
+    ssh.ejecutar_chown()
+
+    print(
+        "Permisos preparados correctamente"
+    )
+
+
+    print(
+        "Abriendo SFTP..."
+    )
+
+    ssh.conectar_sftp()
+
+    print(
+        "SFTP conectado correctamente"
+    )
+
+
+    print(
+        "Subiendo archivos..."
+    )
+
+    resultados = (
+        ssh.subir_archivos_robot()
+    )
+
+
+    print(
+        "\nArchivos subidos y verificados:"
+    )
+
+
+    for resultado in resultados:
 
         print(
-            archivo["nombre"],
-            archivo["tamano"],
+            resultado["ruta_remota"],
+            resultado["tamano_remoto"],
             "bytes",
-            "permisos:",
-            archivo["permisos"]
+            "OK"
         )
 
 
@@ -69,4 +107,6 @@ finally:
 
     ssh.cerrar()
 
-    print("\nConexión cerrada")
+    print(
+        "Conexiones cerradas"
+    )
