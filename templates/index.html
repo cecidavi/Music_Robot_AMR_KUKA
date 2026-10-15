@@ -231,6 +231,7 @@
                 </div>
 
 
+
 <!-- ==================================
      CONTROLES DEL AUDIO
 =================================== -->
@@ -320,9 +321,64 @@
 
 </form>
 
+
+<!-- ==================================
+     SUBIR ARCHIVOS AL ROBOT
+=================================== -->
+
+<hr>
+
+<div class="subida-robot">
+
+    <h3>Subir archivos al robot</h3>
+
+    <p class="ayuda-subida">
+        Ingresa la dirección IP del Robot.
+        Se subirán los cuatro archivos AW100 y AW200
+        generados actualmente .
+    </p>
+
+    <label for="robotIp">
+        Dirección IP del robot
+    </label>
+
+    <input
+        type="text"
+        id="robotIp"
+        name="robot_ip"
+        placeholder="Ejemplo: 10.97.65.XXX"
+        autocomplete="off">
+
+    <div class="buttons acciones-robot">
+
+        <button
+            type="button"
+            id="subirRobot"
+            class="button-primary">
+
+            Subir archivos al robot
+
+        </button>
+
+    </div>
+
+    <div
+        id="resultadoSubida"
+        class="resultado-subida"
+        hidden>
+    </div>
+
 </div>
 
+
+</div>
+
+
 {% endif %}
+
+
+
+
 
     </div>
 
