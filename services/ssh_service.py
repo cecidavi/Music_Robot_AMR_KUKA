@@ -37,6 +37,10 @@ class SSHService:
 
         self.cliente.load_system_host_keys()
 
+        self.cliente.set_missing_host_key_policy(
+            paramiko.AutoAddPolicy()
+        )
+
         self.cliente.connect(
             hostname=self.host,
             port=self.puerto,

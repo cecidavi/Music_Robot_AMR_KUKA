@@ -669,3 +669,69 @@ if (
         }
     );
 }
+
+
+
+// =====================================================
+// SUBIR ARCHIVOS GENERADOS AL ROBOT
+// =====================================================
+
+const botonSubirRobot = document.getElementById("subirRobot");
+const inputRobotIp = document.getElementById("robotIp");
+const resultadoSubida = document.getElementById("resultadoSubida");
+
+if (botonSubirRobot && inputRobotIp && resultadoSubida) {
+
+    botonSubirRobot.addEventListener("click", async () => {
+
+        const robotIp = inputRobotIp.value.trim();
+
+        if (!robotIp) {
+            resultadoSubida.hidden = false;
+            resultadoSubida.textContent =
+                "❌ Ingresa la dirección IP del robot.";
+            return;
+        }
+
+        botonSubirRobot.disabled = true;
+        resultadoSubida.hidden = false;
+        resultadoSubida.textContent =
+            `Conectando con el robot ${robotIp}...`;
+
+        try {
+
+            const respuesta = await fetch("/subir-robot", {
+                method: "POST",
+
+                headers: {
+                    "Content-Type": "application/json"
+                },
+
+                body: JSON.stringify({
+                    ip: robotIp
+                })
+            });
+
+            const resultado = await respuesta.json();
+
+            if (!respuesta.ok || !resultado.ok) {
+                throw new Error(
+                    resultado.error ||
+                    "No fue posible subir los archivos."
+                );
+            }
+
+            resultadoSubida.textContent =
+                `✅ ${resultado.mensaje}`;
+
+        } catch (error) {
+
+            resultadoSubida.textContent =
+                `❌ ${error.message}`;
+
+        } finally {
+
+            botonSubirRobot.disabled = false;
+        }
+    });
+}
