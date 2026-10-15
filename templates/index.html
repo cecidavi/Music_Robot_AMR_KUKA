@@ -262,7 +262,10 @@
      FORMULARIO DE RECORTE
 =================================== -->
 
-<form id="formRecorte" action="/recortar" method="POST">
+<form
+    id="formRecorte"
+    action="/recortar"
+    method="POST">
 
     <input
         type="hidden"
@@ -276,7 +279,6 @@
         name="fin"
         value="0">
 
-
     <div class="buttons acciones-audio">
 
         <button
@@ -288,30 +290,39 @@
 
         </button>
 
-        <div 
-            id = "resultadoRecorte"
-            class="resultado-recorte">
-        </div>
-
-        <div
-            id="resultadoRecortado"
-            class="preview-recortado" hidden>
-
-            <h3>Resultado recortado</h3>
-
-            <audio
-                id="audioRecortado"
-                controls
-                src="">
+    </div>
 
 
-        </div>
+    <!-- Mensaje de procesamiento, éxito o error -->
+
+    <div
+        id="resultadoRecorte"
+        class="resultado-recorte"
+        hidden>
+    </div>
+
+
+    <!-- Reproductor separado del resultado recortado -->
+
+    <div
+        id="previewRecortado"
+        class="preview-recortado"
+        hidden>
+
+        <h3>Resultado recortado</h3>
+
+        <audio
+            id="audioRecortado"
+            controls>
+        </audio>
 
     </div>
 
 </form>
 
-        {% endif %}
+</div>
+
+{% endif %}
 
     </div>
 
