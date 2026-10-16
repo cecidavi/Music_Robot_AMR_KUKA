@@ -24,8 +24,15 @@ venv/
 .DS_Store
 Thumbs.db
 
-# Storage
-storage/
+# Storage: ignorar archivos generados,
+# pero conservar la estructura de carpetas
+storage/preview/*
+storage/AW100/*
+storage/AW200/*
+
+!storage/preview/.gitkeep
+!storage/AW100/.gitkeep
+!storage/AW200/.gitkeep
 
 # Docker
 *.tar
