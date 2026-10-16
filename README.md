@@ -1,15 +1,101 @@
-## ✅ Requisitos
+# 🎵 Music Robot AMR KUKA
 
-Antes de ejecutar la aplicación se necesita:
+[🇲🇽 Versión en Español](README.md)
+
+Web application developed with **Python + Flask** to manage, process, and replace audio files used by **KUKA AMRs**.
+
+The application allows users to download audio, preview it, optionally select and trim a section, convert it to the formats required by the robot, and transfer the resulting files directly to the AMR using **SSH/SFTP**.
+
+---
+
+## 📌 Project Overview
+
+The objective of this project is to simplify the process of changing music and sound files on KUKA AMRs.
+
+Instead of manually downloading, editing, converting, and transferring audio files, the application centralizes these operations in a single web interface.
+
+### General workflow
+
+```text
+Download audio
+      ↓
+Generate source file
+      ↓
+Preview / listen
+      ↓
+Is trimming required?
+   ↓           ↓
+  Yes          No
+   ↓           ↓
+ Trim      Full audio
+      \       /
+       ↓     ↓
+Process audio
+       ↓
+Generate files
+AW100 / AW200
+       ↓
+Enter robot IP
+       ↓
+SSH/SFTP connection
+       ↓
+Upload files to AMR
+```
+
+---
+
+## 🚀 Features
+
+The application currently supports:
+
+- Audio downloading.
+- Source audio file generation.
+- Audio preview and playback.
+- Audio section selection.
+- Optional audio trimming.
+- Using the complete audio without trimming.
+- Audio processing with FFmpeg.
+- Generation of the required AW100 and AW200 files.
+- Robot IP input through the web interface.
+- SSH connection to the AMR.
+- File transfer using SFTP.
+- Local execution on Windows.
+- Local execution on Linux.
+- Deployment using Docker on a Linux server.
+
+---
+
+## 🛠️ Technologies
+
+The project mainly uses:
+
+- Python
+- Flask
+- Gunicorn
+- FFmpeg
+- FFprobe
+- SSH / SFTP
+- HTML
+- CSS
+- JavaScript
+- Docker
+- Docker Compose
+
+---
+
+## ✅ Requirements
+
+Before running the application, the following components are required:
 
 - Python 3
 - pip
 - Git
-- FFmpeg y FFprobe
-- Acceso de red a los robots KUKA AMR
-- Docker y Docker Compose (únicamente si se ejecutará mediante contenedores)
+- FFmpeg
+- FFprobe
+- Network access to the KUKA AMRs
+- Docker and Docker Compose for containerized deployment
 
-Para comprobar que las herramientas principales están instaladas:
+Verify the installed tools with:
 
 ```bash
 python --version
@@ -18,50 +104,111 @@ ffmpeg -version
 ffprobe -version
 ```
 
-> **Nota:** El equipo donde se ejecute la aplicación debe tener conectividad de red con los AMR KUKA para poder realizar la transferencia de archivos mediante SSH/SFTP.
+On Linux, it may be necessary to use:
+
+```bash
+python3 --version
+pip3 --version
+```
+
+> **Important:** The computer or server running the application must have network connectivity to the AMRs in order to transfer files using SSH/SFTP.
 
 ---
 
-# 🪟 Instalación y ejecución en Windows
+## 📁 Project Structure
 
-Esta opción se recomienda principalmente para desarrollo y pruebas locales.
+```text
+Music_Robot_AMR_KUKA/
+│
+├── App.py
+├── compose.yaml
+├── Dockerfile
+├── gunicorn.conf.py
+├── README.md
+├── README_EN.md
+├── requirements.txt
+│
+├── models/
+├── services/
+├── static/
+├── storage/
+├── templates/
+└── test/
+```
 
-## 1. Clonar el repositorio
+### Main directories
 
-Abrir PowerShell, CMD o Git Bash y ejecutar:
+**`models/`**
+
+Contains the models used by the application.
+
+**`services/`**
+
+Contains the application logic, including audio processing and communication with the robots.
+
+**`templates/`**
+
+Contains the HTML pages used by Flask.
+
+**`static/`**
+
+Contains web interface resources such as CSS and JavaScript.
+
+**`storage/`**
+
+Contains audio files used and generated during processing.
+
+```text
+storage/
+├── AW100/
+├── AW200/
+└── preview/
+```
+
+**`test/`**
+
+Contains scripts used to test individual project functions.
+
+---
+
+# 🪟 Windows Installation
+
+Windows can be used for local development and testing.
+
+## 1. Clone the repository
+
+Open PowerShell, CMD, or Git Bash:
 
 ```bash
-git clone https://github.com/cecidavi/Music_Robot_AMR_KUKA.git
+git clone <REPOSITORY_URL>
 cd Music_Robot_AMR_KUKA
 ```
 
+The following commands should be executed from the project root directory.
+
 ---
 
-## 2. Crear el entorno virtual
-
-Desde la raíz del proyecto:
+## 2. Create a virtual environment
 
 ```powershell
 python -m venv .venv
 ```
 
-Activarlo en PowerShell:
+Activate it in PowerShell:
 
 ```powershell
 .venv\Scripts\Activate.ps1
 ```
 
-Una vez activado aparecerá algo similar a:
+Once activated, the terminal should look similar to:
 
 ```text
-(.venv) PS C:\Programas\KUKA\python\Music_Robot_AMR_KUKA>
+(.venv) PS C:\path\Music_Robot_AMR_KUKA>
 ```
 
 ---
 
-## 3. Instalar las dependencias
-
-Con el entorno virtual activado:
+## 3. Install Python dependencies
 
 ```powershell
 pip install -r requirements.txt
@@ -69,11 +216,11 @@ pip install -r requirements.txt
 
 ---
 
-## 4. Instalar FFmpeg en Windows
+# 🎵 Installing FFmpeg on Windows
 
-FFmpeg debe estar instalado en Windows para que la aplicación pueda convertir y procesar los archivos de audio.
+The application uses **FFmpeg** and **FFprobe** to process audio files.
 
-Después de descargar y descomprimir FFmpeg, se tendrá una estructura similar a:
+After downloading and extracting FFmpeg, the directory structure should look similar to:
 
 ```text
 C:\ffmpeg\
@@ -82,380 +229,38 @@ C:\ffmpeg\
     └── ffprobe.exe
 ```
 
-La carpeta `bin` debe agregarse a la variable de entorno `PATH` de Windows.
+There are two ways to make FFmpeg available to the application.
 
-Por ejemplo:
+---
+
+## Option 1: Add FFmpeg to PATH
+
+Add the FFmpeg `bin` directory to the Windows `PATH`.
+
+For example:
 
 ```text
 C:\ffmpeg\bin
 ```
 
-### Comprobar la instalación
+After modifying the `PATH`, close and reopen PowerShell.
 
-Cerrar y volver a abrir PowerShell y ejecutar:
+Verify the installation:
 
 ```powershell
 ffmpeg -version
 ffprobe -version
 ```
 
-Si ambos comandos muestran información de versión, FFmpeg está correctamente configurado.
+If both commands are successfully recognized, FFmpeg is correctly configured.
 
-### Alternativa: usar una ruta específica
+---
 
-Si no se desea agregar FFmpeg al `PATH`, el proyecto también puede configurarse para utilizar directamente la ubicación de los ejecutables.
+## Option 2: Use a specific FFmpeg path
 
-Ejemplo:
+FFmpeg can also be located in a specific directory.
+
+For example:
 
 ```text
-C:\Programas\KUKA\musicdowload\ffmpeg-9.0.1-essentials_build\bin\ffmpeg.exe
-```
-
-y:
-
-```text
-C:\Programas\KUKA\musicdowload\ffmpeg-9.0.1-essentials_build\bin\ffprobe.exe
-```
-
-En este caso, la aplicación deberá utilizar esas rutas al ejecutar FFmpeg o FFprobe.
-
-> Se recomienda utilizar `PATH`, ya que evita depender de una ubicación específica de FFmpeg dentro de una computadora.
-
----
-
-## 5. Ejecutar la aplicación en Windows
-
-Desde la raíz del proyecto:
-
-```text
-Music_Robot_AMR_KUKA/
-```
-
-y con `.venv` activado:
-
-```powershell
-python App.py
-```
-
-La aplicación Flask iniciará utilizando la configuración definida en `App.py`.
-
-Para detenerla:
-
-```text
-Ctrl + C
-```
-
----
-
-# 🐧 Instalación y ejecución en Linux
-
-La aplicación también puede ejecutarse en un servidor Linux.
-
-Todos los siguientes comandos deben ejecutarse desde una terminal.
-
-## 1. Clonar el proyecto
-
-```bash
-cd ~
-git clone https://github.com/cecidavi/Music_Robot_AMR_KUKA.git
-cd Music_Robot_AMR_KUKA
-```
-
-La terminal deberá quedar ubicada dentro de:
-
-```text
-~/Music_Robot_AMR_KUKA
-```
-
-Se puede comprobar con:
-
-```bash
-pwd
-```
-
-y:
-
-```bash
-ls
-```
-
-Deberán aparecer archivos como:
-
-```text
-App.py
-Dockerfile
-compose.yaml
-gunicorn.conf.py
-requirements.txt
-services
-static
-storage
-templates
-```
-
----
-
-## 2. Instalar dependencias del sistema
-
-En sistemas basados en Ubuntu o Debian:
-
-```bash
-sudo apt update
-sudo apt install python3 python3-pip python3-venv ffmpeg
-```
-
-Comprobar FFmpeg:
-
-```bash
-ffmpeg -version
-ffprobe -version
-```
-
----
-
-# 🐧 Ejecución directa en Linux
-
-Si se desea ejecutar la aplicación sin Docker, primero se crea un entorno virtual.
-
-Desde:
-
-```text
-~/Music_Robot_AMR_KUKA
-```
-
-ejecutar:
-
-```bash
-python3 -m venv .venv
-```
-
-Activarlo:
-
-```bash
-source .venv/bin/activate
-```
-
-Instalar las dependencias:
-
-```bash
-pip install -r requirements.txt
-```
-
-Para desarrollo o pruebas:
-
-```bash
-python App.py
-```
-
----
-
-# 🐳 Ejecución en Linux con Docker
-
-Para el servidor se recomienda utilizar Docker.
-
-Primero entrar a la raíz del proyecto:
-
-```bash
-cd ~/Music_Robot_AMR_KUKA
-```
-
-La estructura debe contener como mínimo:
-
-```text
-Music_Robot_AMR_KUKA/
-├── App.py
-├── Dockerfile
-├── compose.yaml
-├── gunicorn.conf.py
-├── requirements.txt
-├── services/
-├── static/
-├── storage/
-└── templates/
-```
-
-## Construir la imagen
-
-```bash
-docker compose build
-```
-
----
-
-## Iniciar la aplicación
-
-```bash
-docker compose up -d
-```
-
----
-
-## Verificar que el contenedor esté funcionando
-
-```bash
-docker ps
-```
-
----
-
-## Ver los logs
-
-```bash
-docker compose logs --tail=100
-```
-
-Para observar los logs en tiempo real:
-
-```bash
-docker compose logs -f
-```
-
-Para salir de los logs sin detener el contenedor:
-
-```text
-Ctrl + C
-```
-
----
-
-## Detener la aplicación
-
-```bash
-docker compose down
-```
-
----
-
-## Reconstruir después de realizar cambios
-
-Si se modificó el código o se agregaron nuevas dependencias:
-
-```bash
-docker compose down
-docker compose up -d --build
-```
-
-También puede utilizarse directamente:
-
-```bash
-docker compose up -d --build
-```
-
----
-
-## 🔄 Actualizar el proyecto en el servidor
-
-Si el proyecto ya está clonado y existen cambios nuevos en el repositorio:
-
-```bash
-cd ~/Music_Robot_AMR_KUKA
-git pull
-```
-
-Después se puede reconstruir el contenedor:
-
-```bash
-docker compose up -d --build
-```
-
-Finalmente:
-
-```bash
-docker ps
-```
-
-y, si es necesario:
-
-```bash
-docker compose logs --tail=100
-```
-
----
-
-# 📦 Administración de dependencias de Python
-
-Durante el desarrollo se instala una nueva dependencia:
-
-```bash
-pip install nombre_paquete
-```
-
-se debe actualizar:
-
-```text
-requirements.txt
-```
-
-Por ejemplo:
-
-```bash
-pip freeze > requirements.txt
-```
-
-Después de subir los cambios al repositorio, el servidor deberá reconstruir la imagen Docker para instalar las nuevas dependencias:
-
-```bash
-docker compose up -d --build
-```
-
----
-
-# 🔌 Verificación de conectividad con los AMR
-
-El equipo que ejecuta la aplicación debe poder comunicarse con la red de los robots.
-
-En Linux puede comprobarse inicialmente con:
-
-```bash
-ping <IP_ROBOT>
-```
-
-Por ejemplo:
-
-```bash
-ping 10.x.x.x
-```
-
-La aplicación utilizará posteriormente la IP proporcionada para establecer la conexión necesaria con el AMR y transferir los archivos.
-
-Si la aplicación funciona dentro de Docker, es importante verificar que la conectividad hacia el robot también exista desde el entorno donde se ejecuta el contenedor.
-
----
-
-# 🗂️ ¿Dónde ejecutar cada comando?
-
-Una regla sencilla para trabajar con el proyecto:
-
-### Windows
-
-Primero:
-
-```powershell
-cd C:\ruta\al\proyecto\Music_Robot_AMR_KUKA
-```
-
-Después ejecutar los comandos relacionados con Python:
-
-```powershell
-.venv\Scripts\Activate.ps1
-python App.py
-```
-
-### Linux
-
-Primero:
-
-```bash
-cd ~/Music_Robot_AMR_KUKA
-```
-
-Después ejecutar los comandos de Docker:
-
-```bash
-docker compose build
-docker compose up -d
-docker compose logs -f
-docker compose down
-```
-
-El archivo `compose.yaml` se encuentra en la raíz del proyecto, por lo que los comandos de `docker compose` deben ejecutarse desde esa ubicación.
+C:\Programas\KUKA\musicdowload\ffmpeg-9.0.1-
