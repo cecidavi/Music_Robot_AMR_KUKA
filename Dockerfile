@@ -1,4 +1,4 @@
-FROM python:3.12-slim
+FROM python:3.12-slim-bookworm
 
 ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1
@@ -6,7 +6,12 @@ ENV PIP_NO_CACHE_DIR=1
 
 WORKDIR /app
 
-RUN apt-get update \
+RUN rm -rf /var/lib/apt/lists/* \
+    && apt-get clean \
+    && apt-get update \
+        -o Acquire::Retries=5 \
+        -o Acquire::http::No-Cache=True \
+        -o Acquire::https::No-Cache=True \
     && apt-get install -y --no-install-recommends \
         ffmpeg \
         openssh-client \
