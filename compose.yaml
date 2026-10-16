@@ -1,0 +1,22 @@
+services:
+
+  music-robot-amr:
+
+    build:
+      context: .
+      dockerfile: Dockerfile
+
+    image: music-robot-amr:latest
+
+    container_name: music-robot-amr
+
+    restart: unless-stopped
+
+    ports:
+      - "8091:8000"
+
+    volumes:
+      - ./storage:/app/storage
+
+    environment:
+      PYTHONUNBUFFERED: "1"
