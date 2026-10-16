@@ -180,7 +180,7 @@ Windows can be used for local development and testing.
 Open PowerShell, CMD, or Git Bash:
 
 ```bash
-git clone <REPOSITORY_URL>
+git clone https://github.com/cecidavi/Music_Robot_AMR_KUKA.git
 cd Music_Robot_AMR_KUKA
 ```
 
