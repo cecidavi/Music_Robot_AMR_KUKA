@@ -1,72 +1,575 @@
-body {
-    font-family: Arial, sans-serif;
-    background-color: #f4f4f4;
-    margin: 0;
-    padding: 20px;
+/* ==========================================
+   GENERAL
+========================================== */
+
+* {
+    box-sizing: border-box;
 }
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    background-color: #eef2f7;
+    color: #1f2937;
+
+    margin: 0;
+    padding: 30px 20px;
+
+    min-height: 100vh;
+}
+
+
+/* ==========================================
+   CONTENEDOR PRINCIPAL
+========================================== */
 
 .container {
     max-width: 900px;
     margin: auto;
 }
 
+
+/* ==========================================
+   TITULOS
+========================================== */
+
 h1 {
     text-align: center;
+    color: #111827;
+
+    margin-top: 0;
+    margin-bottom: 30px;
+
+    font-size: 32px;
 }
+
+h2 {
+    color: #1f2937;
+
+    margin-top: 0;
+    margin-bottom: 20px;
+}
+
+h3 {
+    color: #374151;
+
+    margin-top: 25px;
+    margin-bottom: 15px;
+}
+
+
+/* ==========================================
+   TARJETAS
+========================================== */
 
 .card {
-    background: white;
-    padding: 15px;
-    margin-bottom: 15px;
-    border-radius: 8px;
+    background: #ffffff;
+
+    padding: 25px;
+
+    margin-bottom: 22px;
+
+    border-radius: 12px;
+
+    border: 1px solid #e5e7eb;
+
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.07);
 }
 
-input[type=text],
-input[type=number] {
-    width: 100%;
-    padding: 8px;
-    margin-top: 5px;
-    margin-bottom: 15px;
-    box-sizing: border-box;
+
+/* ==========================================
+   TARJETA DE ERROR
+========================================== */
+
+.card-error {
+    background: #fff5f5;
+
+    border-left: 5px solid #dc2626;
 }
+
+.card-error h2 {
+    color: #b91c1c;
+}
+
+
+/* ==========================================
+   LABELS
+========================================== */
+
+label {
+    display: block;
+
+    font-weight: 600;
+    font-size: 14px;
+
+    color: #374151;
+
+    margin-bottom: 6px;
+}
+
+
+/* ==========================================
+   INPUTS
+========================================== */
+
+input[type="text"],
+input[type="number"] {
+    width: 100%;
+
+    padding: 12px 14px;
+
+    margin-top: 5px;
+    margin-bottom: 18px;
+
+    border: 1px solid #cbd5e1;
+    border-radius: 8px;
+
+    background-color: #ffffff;
+
+    font-size: 15px;
+    color: #111827;
+
+    outline: none;
+
+    transition:
+        border-color 0.2s,
+        box-shadow 0.2s;
+}
+
+
+/* Cuando haces clic en el input */
+
+input[type="text"]:focus,
+input[type="number"]:focus {
+    border-color: #2563eb;
+
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+}
+
+
+input::placeholder {
+    color: #9ca3af;
+}
+
+
+/* ==========================================
+   CONTENEDOR DE BOTONES
+========================================== */
 
 .buttons {
     display: flex;
+
     gap: 10px;
+
+    flex-wrap: wrap;
 }
+
+
+/* ==========================================
+   BOTONES GENERALES
+========================================== */
 
 button {
-    padding: 10px 20px;
+    padding: 11px 20px;
+
+    border: none;
+    border-radius: 8px;
+
+    font-size: 14px;
+    font-weight: 600;
+
     cursor: pointer;
+
+    transition:
+        background-color 0.2s,
+        box-shadow 0.2s,
+        transform 0.1s;
 }
 
 
-.resultado-recorte {
-    margin-top: 16px;
-    padding: 12px 16px;
+button:hover {
+    transform: translateY(-1px);
+}
+
+
+button:active {
+    transform: translateY(0);
+}
+
+
+/* ==========================================
+   BOTON PRINCIPAL
+========================================== */
+
+.button-primary {
+    background-color: #2563eb;
+
+    color: white;
+
+    box-shadow: 0 3px 8px rgba(37, 99, 235, 0.25);
+}
+
+
+.button-primary:hover {
+    background-color: #1d4ed8;
+
+    box-shadow: 0 5px 12px rgba(37, 99, 235, 0.30);
+}
+
+
+/* ==========================================
+   BOTON SECUNDARIO
+========================================== */
+
+.button-secondary {
+    background-color: #e5e7eb;
+
+    color: #374151;
+
+    border: 1px solid #d1d5db;
+}
+
+
+.button-secondary:hover {
+    background-color: #d1d5db;
+}
+
+
+/* ==========================================
+   LISTA DE ARCHIVOS
+========================================== */
+
+.lista-archivos {
+    list-style: none;
+
+    padding: 0;
+    margin: 15px 0 25px 0;
+}
+
+
+.lista-archivos li {
+    padding: 10px 14px;
+
+    margin-bottom: 7px;
+
+    background-color: #f0fdf4;
+
+    border: 1px solid #bbf7d0;
+
+    border-radius: 7px;
+
+    color: #166534;
+}
+
+
+/* ==========================================
+   TEXTO DE AYUDA
+========================================== */
+
+.ayuda-recorte,
+.ayuda-subida {
+    color: #64748b;
+
+    font-size: 14px;
+
+    line-height: 1.5;
+
+    margin-bottom: 18px;
+}
+
+
+/* ==========================================
+   WAVEFORM
+========================================== */
+
+.waveform-container {
+    padding: 18px;
+
+    background-color: #f8fafc;
+
+    border: 1px solid #e2e8f0;
+    border-radius: 10px;
+
+    margin-top: 15px;
+}
+
+
+#waveform {
+    width: 100%;
+
+    min-height: 100px;
+}
+
+
+/* ==========================================
+   LINEA DE TIEMPO
+========================================== */
+
+.timeline {
+    display: flex;
+
+    justify-content: space-between;
+
+    color: #64748b;
+
+    font-size: 13px;
+
+    margin-bottom: 10px;
+}
+
+
+/* ==========================================
+   TIEMPOS DE SELECCION
+========================================== */
+
+.seleccion-audio {
+    display: grid;
+
+    grid-template-columns: repeat(3, 1fr);
+
+    gap: 12px;
+
+    margin-top: 18px;
+}
+
+
+.tiempo-item {
+    padding: 14px;
+
+    background-color: #f8fafc;
+
+    border: 1px solid #e2e8f0;
     border-radius: 8px;
+
+    text-align: center;
+}
+
+
+.tiempo-etiqueta {
+    display: block;
+
+    color: #64748b;
+
+    font-size: 13px;
+
+    margin-bottom: 7px;
+}
+
+
+.tiempo-valor {
+    display: block;
+
+    color: #1e293b;
+
+    font-size: 18px;
     font-weight: bold;
 }
 
+
+/* ==========================================
+   CONTROLES DE AUDIO
+========================================== */
+
+.controles-audio {
+    margin-top: 18px;
+}
+
+
+.acciones-audio {
+    margin-top: 15px;
+}
+
+
+/* ==========================================
+   RESULTADO DEL RECORTE
+========================================== */
+
+.resultado-recorte {
+    margin-top: 16px;
+
+    padding: 12px 16px;
+
+    border-radius: 8px;
+
+    font-weight: bold;
+}
+
+
 .resultado-recorte.procesando {
     background-color: #fff7ed;
+
     color: #9a3412;
+
     border: 1px solid #fdba74;
 }
 
+
 .resultado-recorte.correcto {
     background-color: #dcfce7;
+
     color: #166534;
+
     border: 1px solid #86efac;
 }
 
+
 .resultado-recorte.error {
     background-color: #fee2e2;
+
     color: #991b1b;
+
     border: 1px solid #fca5a5;
 }
 
+
+/* ==========================================
+   BOTON RECORTE DESHABILITADO
+========================================== */
+
 #procesarRecorte:disabled {
     opacity: 0.6;
+
     cursor: not-allowed;
+
+    transform: none;
+}
+
+
+/* ==========================================
+   AUDIO RECORTADO
+========================================== */
+
+.preview-recortado {
+    margin-top: 20px;
+
+    padding: 18px;
+
+    background-color: #f8fafc;
+
+    border: 1px solid #e2e8f0;
+    border-radius: 10px;
+}
+
+
+.preview-recortado h3 {
+    margin-top: 0;
+}
+
+
+.preview-recortado audio {
+    width: 100%;
+}
+
+
+/* ==========================================
+   SEPARADOR
+========================================== */
+
+hr {
+    border: none;
+
+    height: 1px;
+
+    background-color: #e2e8f0;
+
+    margin: 30px 0;
+}
+
+
+/* ==========================================
+   SUBIDA AL ROBOT
+========================================== */
+
+.subida-robot {
+    margin-top: 20px;
+
+    padding: 22px;
+
+    background-color: #f8fafc;
+
+    border: 1px solid #e2e8f0;
+    border-radius: 10px;
+}
+
+
+.subida-robot h3 {
+    margin-top: 0;
+
+    color: #1e293b;
+}
+
+
+.acciones-robot {
+    margin-top: 5px;
+}
+
+
+/* ==========================================
+   RESULTADO DE SUBIDA
+========================================== */
+
+.resultado-subida {
+    margin-top: 16px;
+
+    padding: 12px 16px;
+
+    border-radius: 8px;
+
+    font-weight: 600;
+
+    color: #1e40af;
+
+    background-color: #eff6ff;
+
+    border: 1px solid #bfdbfe;
+}
+
+
+/* ==========================================
+   ELEMENTOS OCULTOS
+========================================== */
+
+[hidden] {
+    display: none !important;
+}
+
+
+/* ==========================================
+   VERSION MOVIL
+========================================== */
+
+@media (max-width: 650px) {
+
+    body {
+        padding: 15px 10px;
+    }
+
+
+    .card {
+        padding: 18px;
+    }
+
+
+    h1 {
+        font-size: 26px;
+    }
+
+
+    .seleccion-audio {
+        grid-template-columns: 1fr;
+    }
+
+
+    .buttons {
+        flex-direction: column;
+    }
+
+
+    .buttons button {
+        width: 100%;
+    }
+
+
+    .subida-robot {
+        padding: 16px;
+    }
 }
