@@ -31,7 +31,7 @@ Esta opción se recomienda principalmente para desarrollo y pruebas locales.
 Abrir PowerShell, CMD o Git Bash y ejecutar:
 
 ```bash
-git clone <URL_DEL_REPOSITORIO>
+git clone https://github.com/cecidavi/Music_Robot_AMR_KUKA.git
 cd Music_Robot_AMR_KUKA
 ```
 
@@ -157,7 +157,7 @@ Todos los siguientes comandos deben ejecutarse desde una terminal.
 
 ```bash
 cd ~
-git clone <URL_DEL_REPOSITORIO>
+git clone https://github.com/cecidavi/Music_Robot_AMR_KUKA.git
 cd Music_Robot_AMR_KUKA
 ```
 
@@ -374,7 +374,7 @@ docker compose logs --tail=100
 
 # 📦 Administración de dependencias de Python
 
-Cuando durante el desarrollo se instala una nueva dependencia:
+Durante el desarrollo se instala una nueva dependencia:
 
 ```bash
 pip install nombre_paquete
